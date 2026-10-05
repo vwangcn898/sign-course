@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SIGN 优势识别课程 — 帮助年轻人从兴趣出发，发现需求，验证优势，加速成长">
+<title>SIGN 优势识别课程 | IISA</title>
+<style>
+  :root {
+    --blue-900: #042C53;
+    --blue-800: #0C447C;
+    --blue-600: #185FA5;
+    --blue-400: #378ADD;
+    --blue-200: #85B7EB;
+    --blue-100: #B5D4F4;
+    --blue-50: #E6F1FB;
+    --teal-600: #0F6E56;
+    --teal-400: #1D9E75;
+    --teal-50: #E1F5EE;
+    --amber-600: #854F0B;
+    --amber-400: #BA7517;
+    --amber-50: #FAEEDA;
+    --green-600: #3B6D11;
+    --green-50: #EAF3DE;
+    --gray-900: #2C2C2A;
+    --gray-800: #444441;
+    --gray-600: #5F5E5A;
+    --gray-400: #888780;
+    --gray-100: #F1EFE8;
+    --white: #FFFFFF;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .hidden { display: none !important; }
+
+  /* Top progress bar */
+  #progressBar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--blue-400); width: 0%;
+    transition: width 0.4s ease; z-index: 1000;
+  }
+
+  /* Header */
+  header {
+    background: var(--white);
+    border-bottom: 0.5px solid var(--gray-400);
+    padding: 0 24px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-weight: 600; font-size: 15px; color: var(--blue-800); cursor: pointer; }
+  .logo span { color: var(--blue-400); }
+  .header-right { display: flex; gap: 16px; align-items: center; }
+  .header-right .progress-text { font-size: 12px; color: var(--gray-400); }
+
+  /* Layout */
+  main { max-width: 800px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 500; cursor: pointer; border: none;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-primary { background: var(--blue-600); color: var(--white); }
+  .btn-primary:hover { background: var(--blue-800); }
+  .btn-secondary { background: transparent; color: var(--blue-600); border: 0.5px solid var(--blue-200); }
+  .btn-secondary:hover { background: var(--blue-50); }
+  .btn-lg { padding: 14px 36px; font-size: 15px; }
+  .btn-block { width: 100%; justify-content: center; }
+
+  /* Cards */
+  .card {
+    background: var(--white); border-radius: var(--radius);
+    border: 0.5px solid var(--gray-400); padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  /* Home view */
+  .hero { text-align: center; padding: 40px 0 32px; }
+  .hero h1 { font-size: 32px; font-weight: 700; color: var(--gray-900); margin-bottom: 12px; line-height: 1.3; }
+  .hero .subtitle { font-size: 17px; color: var(--gray-600); margin-bottom: 28px; }
+  .sign-badge {
+    display: inline-flex; gap: 4px; font-size: 13px; font-weight: 600;
+    color: var(--blue-600); background: var(--blue-50);
+    padding: 6px 16px; border-radius: 20px; margin-bottom: 20px;
+  }
+  .sign-letters { display: flex; justify-content: center; gap: 12px; margin: 32px 0; flex-wrap: wrap; }
+  .sign-letter {
+    width: 64px; height: 64px; border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 24px; color: var(--white);
+  }
+  .sign-letter small { font-size: 9px; font-weight: 400; margin-top: 2px; }
+  .sign-i { background: var(--blue-400); }
+  .sign-n { background: var(--amber-400); }
+  .sign-s { background: var(--teal-400); }
+  .sign-g { background: #639922; }
+
+  /* Course map */
+  .module-grid { display: grid; gap: 16px; margin-top: 20px; }
+  .module-card {
+    background: var(--white); border-radius: var(--radius);
+    border: 0.5px solid var(--gray-400); padding: 24px;
+    cursor: pointer; transition: all 0.2s; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .module-card:hover { border-color: var(--blue-200); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .module-num {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; color: var(--white); flex-shrink: 0;
+  }
+  .module-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .module-info p { font-size: 13px; color: var(--gray-600); }
+  .module-status {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px;
+    margin-left: auto; white-space: nowrap;
+  }
+  .status-done { background: var(--teal-50); color: var(--teal-600); }
+  .status-todo { background: var(--gray-100); color: var(--gray-400); }
+
+  /* Module content */
+  .lesson-nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .lesson-nav .pill {
+    font-size: 12px; padding: 6px 14px; border-radius: 16px;
+    border: 0.5px solid var(--gray-400); color: var(--gray-600); cursor: pointer;
+  }
+  .lesson-nav .pill.active { background: var(--blue-600); color: var(--white); border-color: var(--blue-600); }
+
+  h2.section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--gray-900); }
+  h3.sub-title { font-size: 16px; font-weight: 600; margin: 20px 0 10px; color: var(--gray-800); }
+  p.body-text { margin-bottom: 14px; color: var(--gray-800); }
+  .highlight {
+    background: var(--blue-50); border-left: 3px solid var(--blue-400);
+    padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 20px 0;
+  }
+  .highlight strong { color: var(--blue-800); }
+  .quote {
+    border-left: 3px solid var(--amber-400); padding: 12px 20px;
+    margin: 20px 0; font-style: italic; color: var(--gray-600);
+    background: var(--amber-50); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  /* Exercise box */
+  .exercise-box {
+    background: var(--teal-50); border: 0.5px solid var(--teal-400);
+    border-radius: var(--radius); padding: 24px; margin: 24px 0;
+  }
+  .exercise-box h4 { font-size: 14px; font-weight: 600; color: var(--teal-600); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .exercise-box ol { margin-left: 20px; margin-top: 8px; }
+  .exercise-box ol li { margin-bottom: 8px; font-size: 14px; color: var(--gray-800); }
+
+  /* Text input */
+  textarea.input-field {
+    width: 100%; border: 0.5px solid var(--gray-400); border-radius: var(--radius-sm);
+    padding: 12px; font-size: 14px; font-family: inherit; resize: vertical;
+    min-height: 80px; margin-bottom: 12px; background: var(--white);
+  }
+  textarea.input-field:focus { border-color: var(--blue-400); outline: none; }
+
+  /* Assessment */
+  .quiz-question {
+    background: var(--white); border-radius: var(--radius);
+    border: 0.5px solid var(--gray-400); padding: 24px; margin-bottom: 16px;
+  }
+  .quiz-question .q-num { font-size: 12px; color: var(--blue-400); font-weight: 600; margin-bottom: 6px; }
+  .quiz-question .q-text { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
+  .scale-options { display: flex; gap: 8px; justify-content: space-between; }
+  .scale-opt {
+    flex: 1; text-align: center; padding: 10px 4px; border-radius: var(--radius-sm);
+    border: 0.5px solid var(--gray-400); cursor: pointer; font-size: 13px;
+    transition: all 0.15s; background: var(--white); color: var(--gray-600);
+  }
+  .scale-opt:hover { border-color: var(--blue-200); }
+  .scale-opt.selected { background: var(--blue-600); color: var(--white); border-color: var(--blue-600); }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-400); margin-top: 6px; }
+
+  /* Results */
+  .result-score-card {
+    text-align: center; padding: 32px 24px; border-radius: var(--radius); margin-bottom: 20px;
+  }
+  .result-score-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .result-score-card .score { font-size: 36px; font-weight: 700; }
+  .result-score-card .label { font-size: 13px; margin-top: 4px; }
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .bar-chart { margin: 24px 0; }
+  .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .bar-label { width: 60px; font-size: 13px; font-weight: 600; text-align: right; }
+  .bar-track { flex: 1; height: 24px; background: var(--gray-100); border-radius: 12px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 12px; transition: width 0.6s ease; }
+  .bar-value { width: 40px; font-size: 13px; font-weight: 600; }
+
+  /* Action plan */
+  .plan-day {
+    display: flex; gap: 12px; align-items: flex-start; padding: 12px 0;
+    border-bottom: 0.5px solid var(--gray-100);
+  }
+  .plan-day .day-num {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--white);
+  }
+  .plan-day .day-content { font-size: 14px; }
+  .plan-day .day-content strong { font-weight: 600; }
+  .plan-day .day-content small { display: block; color: var(--gray-400); margin-top: 2px; }
+
+  /* Nav footer */
+  .nav-footer {
+    display: flex; justify-content: space-between; gap: 12px; margin-top: 32px;
+  }
+  .check-complete {
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+    font-size: 14px; color: var(--gray-600);
+  }
+  .check-complete input { width: 18px; height: 18px; cursor: pointer; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 24px; }
+    .sign-letters { gap: 8px; }
+    .sign-letter { width: 52px; height: 52px; font-size: 20px; }
+    .score-grid { grid-template-columns: 1fr; }
+    main { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<header>
+  <div class="logo" onclick="go('home')">SIGN <span>优势识别课程</span></div>
+  <div class="header-right">
+    <span class="progress-text" id="headerProgress">0% 完成</span>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<script>
+/* ===== Data ===== */
+const MODULES = [
+  { id: 'm1', letter: 'I', color: 'var(--blue-400)', title: '发现你的兴趣', subtitle: 'Instinct 本能 — 什么事你不催就做？', status: 'todo' },
+  { id: 'm2', letter: 'N', color: 'var(--amber-400)', title: '确认你的需求', subtitle: 'Needs 需求感 — 做完什么你觉得很值？', status: 'todo' },
+  { id: 'm3', letter: 'S', color: 'var(--teal-400)', title: '验证你的优势', subtitle: 'Success 成功感 — 你持续做出好结果了吗？', status: 'todo' },
+  { id: 'm4', letter: 'G', color: '#639922', title: '加速你的成长', subtitle: 'Growth 成长感 — 怎么让进步看得见？', status: 'todo' },
+];
+
+const QUIZ = [
+  // Instinct (I) - Q1-5
+  { dim: 'I', q: '我经常在做某些事情时忘记了时间。' },
+  { dim: 'I', q: '有些事不需要别人催我，我就会主动去做。' },
+  { dim: 'I', q: '即使在疲惫的时候，做某些特定的事情能让我重新充满活力。' },
+  { dim: 'I', q: '我会自然地去搜集某些领域的资料和信息，不是因为任务，而是因为好奇。' },
+  { dim: 'I', q: '当我在做某些事情时，我会感到"充电"而不是"消耗"。' },
+  // Needs (N) - Q6-10
+  { dim: 'N', q: '做完某些事情后，我会有真实的满足感，而不是空虚。' },
+  { dim: 'N', q: '做某些事情时，我觉得那才是"真正的我"。' },
+  { dim: 'N', q: '有些事情让我感到有意义和使命感，而不只是消遣。' },
+  { dim: 'N', q: '完成某些事情后，我会感到内心平静和充实。' },
+  { dim: 'N', q: '有些事情即使没有报酬，我也愿意做，因为过程本身就值得。' },
+  // Success (S) - Q11-15
+  { dim: 'S', q: '我在某些方面持续取得不错的成果。' },
+  { dim: 'S', q: '别人经常夸我在某个特定方面做得好。' },
+  { dim: 'S', q: '有些事情我不用太费力就能做得比别人好。' },
+  { dim: 'S', q: '我曾因某个能力获得过认可、奖项或表扬。' },
+  { dim: 'S', q: '当团队需要某类任务时，大家会想到找我。' },
+  // Growth (G) - Q16-20
+  { dim: 'G', q: '我在某些领域学得特别快，远超平均水平。' },
+  { dim: 'G', q: '某些概念我一看就懂，不需要反复解释。' },
+  { dim: 'G', q: '我在某些技能上能看到自己明显的进步。' },
+  { dim: 'G', q: '我刚学到的东西很快就能教给别人。' },
+  { dim: 'G', q: '某些领域的新知识让我感到"顿悟"，而非困惑。' },
+];
+
+const DIM_INFO = {
+  I: { name: '兴趣', en: 'Instinct', color: '#378ADD', bg: '#E6F1FB', desc: '你自然被吸引的事——不催就做，做了充电。这是才干最原初的信号。' },
+  N: { name: '需求', en: 'Needs', color: '#BA7517', bg: '#FAEEDA', desc: '做完有真实满足感的事——不是多巴胺的快感，而是内心的充实。' },
+  S: { name: '优势', en: 'Success', color: '#1D9E75', bg: '#E1F5EE', desc: '你持续做出好结果的事——别人做起来费劲，你做起来顺手。' },
+  G: { name: '成长', en: 'Growth', color: '#639922', bg: '#EAF3DE', desc: '你学得特别快的事——进步肉眼可见，越做越好。' },
+};
+
+const ACTION_PLAN = [
+  { phase: '第 1 周', days: 'Day 1-7', title: '观察记录期', color: '#378ADD',
+    items: ['每天记录"能量日记"：哪些时刻最有活力，哪些最疲惫', '列出 3 件"不催就做"的事', '标记其中做完有"满足感"的事（区分多巴胺 vs 需求感）', '周末回顾：哪件事同时满足 I 和 N？'] },
+  { phase: '第 2 周', days: 'Day 8-14', title: '测评验证期', color: '#1D9E75',
+    items: ['完成 SIGN 自评问卷（本课程的测评模块）', '查看你的个人才干画像', '选 1 个同时满足 I+N+S 的领域', '向 3 个朋友/家人讲述你选的方向，收集反馈'] },
+  { phase: '第 3 周', days: 'Day 15-21', title: '刻意练习期', color: '#639922',
+    items: ['每天投入 1 小时到选定领域', '设定一个小成果目标（如：完成一个小项目/作品）', 'Day 21 交付你的成果', '公开分享你的 21 天成果（社交媒体/社群）', '复盘：我的 SIGN 信号在这 21 天里是如何体现的？'] },
+];
+
+/* ===== State ===== */
+let state = {
+  view: 'home',
+  completedModules: [],
+  quizAnswers: {},
+  moduleInputs: {},
+};
+
+/* ===== Persistence ===== */
+function saveState() {
+  try { localStorage.setItem('sign_course', JSON.stringify(state)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('sign_course');
+    if (s) state = Object.assign(state, JSON.parse(s));
+  } catch(e) {}
+}
+
+/* ===== Progress ===== */
+function updateProgress() {
+  const total = MODULES.length;
+  const done = state.completedModules.length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('headerProgress').textContent = pct + '% 完成';
+}
+
+/* ===== Router ===== */
+function go(view, param) {
+  state.view = view;
+  saveState();
+  window.scrollTo(0, 0);
+  render(param);
+  updateProgress();
+}
+
+/* ===== Render ===== */
+function render(param) {
+  const app = document.getElementById('app');
+  switch(state.view) {
+    case 'home': app.innerHTML = renderHome(); break;
+    case 'map': app.innerHTML = renderMap(); break;
+    case 'module': app.innerHTML = renderModule(param); break;
+    case 'quiz': app.innerHTML = renderQuiz(); break;
+    case 'results': app.innerHTML = renderResults(); break;
+    case 'plan': app.innerHTML = renderPlan(); break;
+  }
+  attachListeners();
+}
+
+/* ===== Home View ===== */
+function renderHome() {
+  return `
+    <div class="hero">
+      <div class="sign-badge">SIGN 优势识别课程 · IISA 出品</div>
+      <h1>找到你的<br>兴趣 · 需求 · 优势 · 成长</h1>
+      <p class="subtitle">基于 Gallup 盖洛普优势理论 + 夏鹏老师方法论<br>帮助年轻人从"不知道做什么"到"知道往哪使劲"</p>
+      <div class="sign-letters">
+        <div class="sign-letter sign-i">I<small>兴趣</small></div>
+        <div class="sign-letter sign-n">N<small>需求</small></div>
+        <div class="sign-letter sign-s">S<small>优势</small></div>
+        <div class="sign-letter sign-g">G<small>成长</small></div>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" onclick="go('map')">开始课程</button>
+        <button class="btn btn-secondary btn-lg" onclick="go('quiz')">直接做 SIGN 测评</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:32px;">
+      <h2 class="section-title">这门课解决什么问题？</h2>
+      <p class="body-text">很多年轻人知道自己"不想要什么"，但说不清自己"想要什么"。更痛苦的是——明明很努力，却感觉方向不对。</p>
+      <p class="body-text">SIGN 框架的核心 insight 是：<strong>人的卓越表现不是靠补短板，而是靠反复调用优势</strong>。但前提是，你得先找到你的优势在哪。</p>
+      <div class="highlight">
+        <strong>核心公式：才干 × 投入 = 优势</strong><br>
+        SIGN 是帮你找到"才干"的雷达——先找到它，再投入刻意练习，才能变成真正的优势。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">课程结构</h2>
+      <div class="module-grid">
+        ${MODULES.map(m => `
+          <div class="module-card" onclick="go('module','${m.id}')">
+            <div class="module-num" style="background:${m.color}">${m.letter}</div>
+            <div class="module-info">
+              <h3>${m.title}</h3>
+              <p>${m.subtitle}</p>
+            </div>
+            <span class="module-status ${state.completedModules.includes(m.id) ? 'status-done' : 'status-todo'}">
+              ${state.completedModules.includes(m.id) ? '已完成' : '未开始'}
+            </span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">关于方法论来源</h2>
+      <p class="body-text">本课程的核心 SIGN 框架来自 Gallup 盖洛普优势理论（Donald O. Clifton 博士），是识别个人才干的四个信号。夏鹏老师在视频号和盖洛普优势课程中系统讲解了这套方法。</p>
+      <p class="body-text">夏鹏老师还补充了成长路径的底层逻辑：<strong>主动争取 → 刻意练习 → 结识贵人（听劝）→ 终身学习</strong>，形成持续迭代的闭环。</p>
+      <div class="quote">
+        "人的卓越表现不是靠修短板补出来的，而是靠反复调用优势打磨出来的。" —— Gallup 优势理论核心结论
+      </div>
+    </div>
+  `;
+}
+
+/* ===== Course Map View ===== */
+function renderMap() {
+  return `
+    <h2 class="section-title">课程地图</h2>
+    <p class="body-text">建议按顺序学习。每个模块包含知识讲解 + 练习 + 行动项。完成后点击"标记完成"解锁进度。</p>
+    <div class="module-grid">
+      ${MODULES.map(m => `
+        <div class="module-card" onclick="go('module','${m.id}')">
+          <div class="module-num" style="background:${m.color}">${m.letter}</div>
+          <div class="module-info">
+            <h3>${m.title}</h3>
+            <p>${m.subtitle}</p>
+          </div>
+          <span class="module-status ${state.completedModules.includes(m.id) ? 'status-done' : 'status-todo'}">
+            ${state.completedModules.includes(m.id) ? '已完成' : '未开始'}
+          </span>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:24px;text-align:center;">
+      <button class="btn btn-primary" onclick="go('module','m1')">从模块一开始</button>
+    </div>
+  `;
+}
+
+/* ===== Module Views ===== */
+function renderModule(modId) {
+  const m = MODULES.find(x => x.id === modId);
+  if (!m) return '<p>模块未找到</p>';
+  const idx = MODULES.indexOf(m);
+  const prev = idx > 0 ? MODULES[idx-1] : null;
+  const next = idx < MODULES.length-1 ? MODULES[idx+1] : null;
+  const isDone = state.completedModules.includes(modId);
+
+  let content = '';
+  if (modId === 'm1') content = module1Content();
+  if (modId === 'm2') content = module2Content();
+  if (modId === 'm3') content = module3Content();
+  if (modId === 'm4') content = module4Content();
+
+  return `
+    <div class="lesson-nav">
+      ${MODULES.map(x => `
+        <span class="pill ${x.id===modId?'active':''}" onclick="go('module','${x.id}')">${x.letter}</span>
+      `).join('')}
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="module-num" style="background:${m.color};width:48px;height:48px;font-size:20px;">${m.letter}</div>
+        <div>
+          <h2 class="section-title" style="margin:0;">模块 ${idx+1}：${m.title}</h2>
+          <p style="font-size:13px;color:var(--gray-600);">${m.subtitle}</p>
+        </div>
+      </div>
+      ${content}
+    </div>
+    <div class="nav-footer">
+      <div>
+        ${prev ? `<button class="btn btn-secondary" onclick="go('module','${prev.id}')">← ${prev.letter} ${prev.title}</button>` : ''}
+      </div>
+      <div>
+        ${next ? `<button class="btn btn-primary" onclick="go('module','${next.id}')">${next.letter} ${next.title} →</button>` : `<button class="btn btn-primary" onclick="go('quiz')">去做 SIGN 测评 →</button>`}
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <label class="check-complete">
+        <input type="checkbox" ${isDone?'checked':''} onchange="toggleModule('${modId}', this.checked)" />
+        标记此模块为已完成
+      </label>
+    </div>
+  `;
+}
+
+function module1Content() {
+  const saved = state.moduleInputs['m1_ex1'] || '';
+  return `
+    <h3 class="sub-title">什么是"兴趣"（Instinct 本能）？</h3>
+    <p class="body-text">在 SIGN 框架中，I 代表 <strong>Instinct（本能）</strong>——你自然被吸引的事。它的特征是：<strong>不需要别人催，你就会去做；做了之后不仅不累，反而有"充电"的感觉。</strong></p>
+    <p class="body-text">这跟"我喜欢"不一样。喜欢是理性判断，本能是行为反应。你可能从没认真想过"我本能地会被什么吸引"，但它一直在影响你的每一个选择。</p>
+
+    <div class="highlight">
+      <strong>判断标准：</strong>如果你做一件事的时候——不催就做、做了充电、忘记时间、自发搜集相关信息——那就是你的本能信号。
+    </div>
+
+    <h3 class="sub-title">为什么不能直接问"我擅长什么"？</h3>
+    <p class="body-text">因为这个问题太难了。大多数人面对"你擅长什么"会愣住。但问"你做什么时忘了时间"，大多数人能立刻回答。<strong>降低认知门槛，是行动的第一步。</strong></p>
+
+    <div class="quote">
+      "才干是自然而然、反复出现，并被高效利用的思维、感受或行为模式。" —— Gallup 才干定义的三个关键词：自然而然、反复出现、模式
+    </div>
+
+    <h3 class="sub-title">夏鹏老师的洞察</h3>
+    <p class="body-text">夏鹏老师在课程中强调：成长的第一步是<strong>主动争取</strong>，打破"等待机会"的被动思维。而主动的前提，是知道往哪个方向主动。SIGN 就是帮你找方向的工具。</p>
+
+    <div class="exercise-box">
+      <h4>练习 · 能量日记启动</h4>
+      <p>请拿出几分钟，回答以下问题。你的回答会被保存在本地，后续模块会用到。</p>
+      <ol>
+        <li>列出 3 件你做的时候"经常忘记时间"的事</li>
+        <li>列出 2 件"不需要别人催你，你就会主动去做"的事</li>
+        <li>列出 1 件"即使很累，做完后反而觉得充电"的事</li>
+      </ol>
+      <textarea class="input-field" placeholder="在这里写下你的答案，每行一条..." id="m1_ex1">${saved}</textarea>
+      <button class="btn btn-secondary" onclick="saveModuleInput('m1_ex1')">保存我的答案</button>
+    </div>
+
+    <h3 class="sub-title">行动项</h3>
+    <div class="highlight">
+      <strong>本周行动：</strong>从你上面列出的事中，选 3 件，本周各做一次。做完后记录：做之前的感觉、做的时候的状态、做完后的感受。下周回顾，看哪些让你"充电"。
+    </div>
+  `;
+}
+
+function module2Content() {
+  const saved = state.moduleInputs['m2_ex1'] || '';
+  return `
+    <h3 class="sub-title">什么是"需求"（Needs 需求感）？</h3>
+    <p class="body-text">在 SIGN 框架中，N 代表 <strong>Needs（需求感）</strong>——做完这件事后，你有真实的满足感，而不是空虚。它满足了你内在的心理需求，让你觉得"这才是真正的我"。</p>
+
+    <div class="highlight">
+      <strong>需求感 vs 多巴胺：</strong>刷 2 小时短视频，当时爽，关掉后空虚——这是多巴胺。写完一篇文章，当时累，但过后充实——这是需求感。<strong>多巴胺给你快感但消耗你；需求感给你满足感且滋养你。</strong>
+    </div>
+
+    <h3 class="sub-title">如何区分"真需求"和"假兴趣"？</h3>
+    <p class="body-text">很多年轻人误把多巴胺当成兴趣，投入大量时间后发现越来越空虚。真正的兴趣（I）一定伴随着真实的需求感（N）。只有当 I 和 N 同时满足时，这件事才值得你长期投入。</p>
+
+    <p class="body-text">检验方法很简单：<strong>做完之后，你感到的是空虚还是充实？</strong>空虚 = 多巴胺，充实 = 需求感。</p>
+
+    <div class="quote">
+      "匮乏感的本质是'缺失+过度评价'。人生是一场体验，没有绝对的好坏。" —— 夏鹏老师
+    </div>
+
+    <h3 class="sub-title">从兴趣到需求的关键一步</h3>
+    <p class="body-text">在模块 1 你列出了让你"忘记时间"的事。现在要做的是<strong>过滤</strong>——不是所有让你忘记时间的事，都值得投入。</p>
+    <p class="body-text">有些人打游戏能忘记时间，但打完更空虚。有些人做设计能忘记时间，做完很有成就感。<strong>前者只有 I 没有 N，后者 I+N 都有。</strong>你需要找到后者。</p>
+
+    <div class="exercise-box">
+      <h4>练习 · 需求感过滤</h4>
+      <p>回顾你在模块 1 列出的活动，逐一问自己："做完这件事后，我是感到充实还是空虚？"</p>
+      <ol>
+        <li>列出 3 件让你"忘记时间"但"做完空虚"的事（只有 I，没有 N）</li>
+        <li>列出 2 件让你"忘记时间"且"做完充实"的事（I + N 都有）</li>
+        <li>对第 2 类的事，写下：它满足了你什么内在需求？（如：被认可、创造感、帮助他人、解决难题…）</li>
+      </ol>
+      <textarea class="input-field" placeholder="在这里写下你的过滤结果..." id="m2_ex1">${saved}</textarea>
+      <button class="btn btn-secondary" onclick="saveModuleInput('m2_ex1')">保存我的答案</button>
+    </div>
+
+    <h3 class="sub-title">行动项</h3>
+    <div class="highlight">
+      <strong>本周行动：</strong>从"I+N 都有"的活动中，选 1 件，本周每天做 30 分钟。连续 7 天后，回顾你的感受变化——充实感是增强了还是减弱了？
+    </div>
+  `;
+}
+
+function module3Content() {
+  return `
+    <h3 class="sub-title">什么是"优势"（Success 成功感）？</h3>
+    <p class="body-text">在 SIGN 框架中，S 代表 <strong>Success（成功感）</strong>——你在某件事上持续做出好结果。别人做起来费劲，你做起来顺手。这不是偶然，而是你的才干在发挥作用。</p>
+
+    <div class="highlight">
+      <strong>核心公式：才干 × 投入 = 优势</strong><br>
+      才干是原材料（你天生擅长的事），投入是刻意练习（你花的时间和方法）。两者缺一不可。有兴趣不等于有优势，中间差着刻意练习。
+    </div>
+
+    <h3 class="sub-title">才干 vs 能力 vs 优势</h3>
+    <p class="body-text">这是三个不同的概念，很多人混淆：</p>
+    <ul style="margin-left:20px;margin-bottom:14px;">
+      <li><strong>才干</strong>：你天生就有的倾向（做起来不费劲的事）—— SIGN 识别的就是才干</li>
+      <li><strong>能力</strong>：你通过学习获得的技能（做起来需要费力的事）</li>
+      <li><strong>优势</strong>：才干经过持续投入后的结果（持续做出好结果）</li>
+    </ul>
+    <p class="body-text">SIGN 帮你找到才干，刻意练习帮你把才干变成优势。<strong>选一个符合你才干的领域去练习，投入产出比远高于在不符合才干的领域死磕。</strong></p>
+
+    <div class="quote">
+      "人的卓越表现不是靠修短板补出来的，而是靠反复调用优势打磨出来的。" —— 这与传统的"木桶理论"完全相反：拉长长板，而非修补短板。
+    </div>
+
+    <h3 class="sub-title">夏鹏老师的方法</h3>
+    <p class="body-text">夏鹏老师强调"刻意练习"要拒绝"低水平重复"，以"冠军标准"要求自己。练习的关键是<strong>聚焦核心目标，针对性突破短板</strong>，而非盲目消耗时间。</p>
+    <p class="body-text">他同时推荐使用盖洛普优势测评来系统化地识别才干——这是"自定"（通过测评找到自身优势，精准发力）的基础。</p>
+
+    <h3 class="sub-title">做 SIGN 自评</h3>
+    <p class="body-text">现在，你可以通过本课程设计的 SIGN 自评问卷，量化你的四个信号强度。测评结果会生成你的"个人才干画像"，帮你判断该往哪个方向投入。</p>
+
+    <div style="text-align:center;margin:24px 0;">
+      <button class="btn btn-primary btn-lg" onclick="go('quiz')">开始 SIGN 自评</button>
+    </div>
+
+    <h3 class="sub-title">行动项</h3>
+    <div class="highlight">
+      <strong>完成测评后：</strong>选 1 个你的 SIGN 最强信号对应的领域，制定 21 天刻意练习计划。每天投入 1 小时，第 21 天交付一个小成果。
+    </div>
+  `;
+}
+
+function module4Content() {
+  return `
+    <h3 class="sub-title">什么是"成长"（Growth 成长感）？</h3>
+    <p class="body-text">在 SIGN 框架中，G 代表 <strong>Growth（成长感）</strong>——你在某个领域学得特别快，进步肉眼可见。这是才干最兴奋的信号：<strong>别人还在入门，你已经开始进阶了。</strong></p>
+
+    <div class="highlight">
+      <strong>成长感的核心标志：</strong>学得快、一看就懂、进步可见、能教别人。如果你在某个领域体验过这种"顿悟"的感觉，那就是你的成长信号在亮起。
+    </div>
+
+    <h3 class="sub-title">成长飞轮</h3>
+    <p class="body-text">夏鹏老师提出的成长路径是：<strong>主动争取 → 刻意练习 → 结识贵人（听劝）→ 终身学习</strong>，形成持续迭代的闭环。这四个步骤缺一不可：</p>
+    <ul style="margin-left:20px;margin-bottom:14px;">
+      <li><strong>主动争取</strong>：打破"等待机会"的被动思维，即便失败也不会比现在更差</li>
+      <li><strong>刻意练习</strong>：拒绝低水平重复，以冠军标准要求自己，聚焦突破</li>
+      <li><strong>结识贵人</strong>：贵人提供更优质的认知和方向指引；"听劝"是放下偏见、接纳建议的能力</li>
+      <li><strong>终身学习</strong>：学习是最好的"状态管理"方式，保持思维活跃，始终有应对变化的底气</li>
+    </ul>
+
+    <h3 class="sub-title">"五正"觉醒法</h3>
+    <p class="body-text">夏鹏老师还提出了实现自我觉醒的五步修炼：</p>
+    <ul style="margin-left:20px;margin-bottom:14px;">
+      <li><strong>正镜</strong>：主动选择优质环境，远离消耗你的负能量圈子</li>
+      <li><strong>正见</strong>：明确方向，果断选择，拒绝内耗，行动起来</li>
+      <li><strong>正言</strong>：先学习再输出，以分享促成长，形成"输入→输出→正反馈"闭环</li>
+      <li><strong>正定</strong>：稳定发挥，构建自身内核（记录习惯、认知支撑、测评定位）</li>
+      <li><strong>正念</strong>：制心一处，培养富足感，减少无谓评价，专注自身成长</li>
+    </ul>
+
+    <div class="quote">
+      "所有方法的核心都指向'聚焦自身成长，拒绝内耗，在实践中持续迭代'。" —— 夏鹏老师
+    </div>
+
+    <h3 class="sub-title">你的 21 天成长计划</h3>
+    <p class="body-text">课程为你设计了一个 21 天行动计划，分为三个阶段：观察记录、测评验证、刻意练习。这是把 SIGN 从"知道"变成"做到"的关键一步。</p>
+
+    <div style="text-align:center;margin:24px 0;">
+      <button class="btn btn-primary btn-lg" onclick="go('plan')">查看我的 21 天行动计划</button>
+    </div>
+
+    <div class="highlight">
+      <strong>课程结束后的持续行动：</strong>每周回顾一次你的 SIGN 信号，记录进步，调整方向。每 2-3 个月重新做一次 SIGN 自评，看分数变化。这就是"终身学习"的开始。
+    </div>
+  `;
+}
+
+/* ===== Quiz View ===== */
+function renderQuiz() {
+  return `
+    <h2 class="section-title">SIGN 优势自评</h2>
+    <p class="body-text">以下 20 道题，每题 5 个选项，请根据你的<strong>真实感受</strong>作答，不要想"应该"怎么选。大约需要 5-8 分钟。</p>
+    <div style="display:flex;gap:8px;margin:16px 0;flex-wrap:wrap;">
+      ${['I 兴趣','N 需求','S 优势','G 成长'].map((label,i) => `
+        <span style="font-size:12px;padding:4px 12px;border-radius:12px;background:${Object.values(DIM_INFO)[i].bg};color:${Object.values(DIM_INFO)[i].color};">${label}</span>
+      `).join('')}
+    </div>
+    <div id="quizContainer">
+      ${QUIZ.map((item, i) => {
+        const dim = DIM_INFO[item.dim];
+        const saved = state.quizAnswers[i];
+        return `
+        <div class="quiz-question">
+          <div class="q-num" style="color:${dim.color}">${dim.en} · ${dim.name} · 第 ${i+1} 题</div>
+          <div class="q-text">${item.q}</div>
+          <div class="scale-options">
+            ${[1,2,3,4,5].map(v => `
+              <div class="scale-opt ${saved===v?'selected':''}" onclick="selectAnswer(${i},${v})">${v}</div>
+            `).join('')}
+          </div>
+          <div class="scale-labels"><span>从不</span><span>偶尔</span><span>有时</span><span>经常</span><span>总是</span></div>
+        </div>
+        `;
+      }).join('')}
+    </div>
+    <div style="text-align:center;margin:24px 0;">
+      <button class="btn btn-primary btn-lg btn-block" onclick="submitQuiz()">提交并查看结果</button>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--gray-400);">请确认你已完成所有 20 题</p>
+  `;
+}
+
+function selectAnswer(qIdx, val) {
+  state.quizAnswers[qIdx] = val;
+  saveState();
+  render('quiz');
+}
+
+function submitQuiz() {
+  const answered = Object.keys(state.quizAnswers).length;
+  if (answered < 20) {
+    alert(`还有 ${20 - answered} 题未作答，请完成所有题目。`);
+    return;
+  }
+  go('results');
+}
+
+/* ===== Results View ===== */
+function renderResults() {
+  if (Object.keys(state.quizAnswers).length < 20) {
+    return `<div class="card"><p>请先完成测评。</p><button class="btn btn-primary" onclick="go('quiz')">去做测评</button></div>`;
+  }
+  const scores = { I: 0, N: 0, S: 0, G: 0 };
+  QUIZ.forEach((item, i) => {
+    scores[item.dim] += state.quizAnswers[i] || 0;
+  });
+  const maxScore = 25; // 5 questions × 5 max
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const topDim = sorted[0][0];
+  const topInfo = DIM_INFO[topDim];
+
+  return `
+    <div class="card" style="text-align:center;">
+      <h2 class="section-title">你的 SIGN 才干画像</h2>
+      <p class="body-text">基于你的自评，以下是你四个信号的得分。分数越高，说明这个信号在你身上越明显——这就是你值得投入的方向。</p>
+    </div>
+
+    <div class="bar-chart">
+      ${Object.entries(scores).map(([dim, score]) => {
+        const info = DIM_INFO[dim];
+        const pct = Math.round((score / maxScore) * 100);
+        return `
+          <div class="bar-row">
+            <div class="bar-label" style="color:${info.color}">${dim} ${info.name}</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:${pct}%;background:${info.color};"></div>
+            </div>
+            <div class="bar-value">${score}/${maxScore}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="card" style="background:${topInfo.bg};border-color:${topInfo.color};">
+      <div style="text-align:center;">
+        <div style="font-size:14px;color:${topInfo.color};font-weight:600;margin-bottom:8px;">你的最强信号</div>
+        <div style="font-size:48px;font-weight:700;color:${topInfo.color};">${topDim}</div>
+        <div style="font-size:18px;font-weight:600;color:${topInfo.color};margin-bottom:12px;">${topInfo.name} · ${topInfo.en}</div>
+        <p style="font-size:14px;color:var(--gray-800);">${topInfo.desc}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="sub-title">各维度解读</h3>
+      ${Object.entries(scores).map(([dim, score]) => {
+        const info = DIM_INFO[dim];
+        const level = score >= 18 ? '很强' : score >= 12 ? '中等' : '较弱';
+        const advice = score >= 18
+          ? `这是你的核心才干信号，值得重点投入。${info.desc}`
+          : score >= 12
+          ? `这个信号有一定基础，可以通过更多实践来验证和加强。${info.desc}`
+          : `这个信号目前不太突出，不一定是你的主方向，但可以作为了解自己的参考。`;
+        return `
+          <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:0.5px solid var(--gray-100);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-weight:700;color:${info.color};font-size:16px;">${dim}</span>
+              <span style="font-weight:600;">${info.name}</span>
+              <span style="font-size:12px;color:var(--gray-400);margin-left:auto;">${score}/25 · ${level}</span>
+            </div>
+            <p style="font-size:13px;color:var(--gray-600);">${advice}</p>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="highlight">
+      <strong>下一步：</strong>你的最强信号是 <strong style="color:${topInfo.color}">${topDim} ${topInfo.name}</strong>。建议你重点在这个方向投入刻意练习。查看下面的 21 天行动计划，开始你的成长之旅。
+    </div>
+
+    <div style="text-align:center;margin:24px 0;">
+      <button class="btn btn-primary btn-lg" onclick="go('plan')">查看我的 21 天行动计划</button>
+      <button class="btn btn-secondary btn-lg" style="margin-left:8px;" onclick="go('quiz')">重新测评</button>
+    </div>
+  `;
+}
+
+/* ===== Action Plan View ===== */
+function renderPlan() {
+  const scores = { I: 0, N: 0, S: 0, G: 0 };
+  if (Object.keys(state.quizAnswers).length >= 20) {
+    QUIZ.forEach((item, i) => { scores[item.dim] += state.quizAnswers[i] || 0; });
+  }
+  const topDim = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+  const topInfo = DIM_INFO[topDim];
+
+  return `
+    <div class="card">
+      <h2 class="section-title">21 天 SIGN 行动计划</h2>
+      <p class="body-text">知识只有变成行动才有价值。以下是为你的设计的 21 天计划，分三个阶段。${topInfo ? `根据你的测评结果，你的最强信号是 <strong style="color:${topInfo.color}">${topDim} ${topInfo.name}</strong>，计划将围绕这个方向展开。` : ''}</p>
+    </div>
+
+    ${ACTION_PLAN.map((phase, pi) => `
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div style="width:40px;height:40px;border-radius:10px;background:${phase.color};color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">${pi+1}</div>
+          <div>
+            <h3 style="font-size:16px;font-weight:600;">${phase.title}</h3>
+            <p style="font-size:12px;color:var(--gray-400);">${phase.phase} · ${phase.days}</p>
+          </div>
+        </div>
+        ${phase.items.map((item, di) => `
+          <div class="plan-day">
+            <div class="day-num" style="background:${phase.color};">${pi*7+di+1}</div>
+            <div class="day-content">
+              <strong>Day ${pi*7+di+1}</strong>
+              <div>${item}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+
+    <div class="card" style="background:var(--blue-50);border-color:var(--blue-200);">
+      <h3 class="sub-title" style="color:var(--blue-800);">课程完成后的持续行动</h3>
+      <ul style="margin-left:20px;">
+        <li style="margin-bottom:8px;">每周回顾一次你的 SIGN 信号，记录进步</li>
+        <li style="margin-bottom:8px;">每 2-3 个月重新做一次 SIGN 自评，看分数变化</li>
+        <li style="margin-bottom:8px;">主动寻找"贵人"——导师、同伴、社群——获取认知和方向指引</li>
+        <li style="margin-bottom:8px;">坚持"输出倒逼输入"——学到的就分享出去，教给别人</li>
+        <li>记住夏鹏老师的成长闭环：主动 → 练习 → 借力 → 终身学习</li>
+      </ul>
+    </div>
+
+    <div style="text-align:center;margin:24px 0;">
+      <button class="btn btn-secondary" onclick="go('results')">查看我的测评结果</button>
+      <button class="btn btn-primary" style="margin-left:8px;" onclick="go('map')">回到课程地图</button>
+    </div>
+  `;
+}
+
+/* ===== Helpers ===== */
+function toggleModule(modId, checked) {
+  if (checked && !state.completedModules.includes(modId)) {
+    state.completedModules.push(modId);
+  } else if (!checked) {
+    state.completedModules = state.completedModules.filter(x => x !== modId);
+  }
+  saveState();
+  updateProgress();
+  render();
+}
+
+function saveModuleInput(key) {
+  const el = document.getElementById(key);
+  if (el) {
+    state.moduleInputs[key] = el.value;
+    saveState();
+    alert('已保存！');
+  }
+}
+
+function attachListeners() {}
+
+/* ===== Init ===== */
+loadState();
+render();
+updateProgress();
+</script>
+</body>
+</html>
